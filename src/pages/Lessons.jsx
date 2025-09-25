@@ -53,7 +53,7 @@ function RecommendedVideos({ videos, setYourLessons, setRecommendedLessons }) {
   );
 }
 
-function VideoCard({ video, setYourLessons, setRecommendedLessons }) {
+function VideoCard({video, setYourLessons, setRecommendedLessons}) {
   const onAddLesson = () => {
     const newVideo = {...video, started: true}
     setYourLessons(allLessons => [newVideo, ...allLessons]);

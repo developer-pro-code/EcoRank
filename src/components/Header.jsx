@@ -1,3 +1,5 @@
+import EcoRankImg from "../assets/EcoRank.jpeg"
+
 export default function Header({searchQuery, setSearchQuery, onSearch}) {
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
@@ -6,13 +8,17 @@ export default function Header({searchQuery, setSearchQuery, onSearch}) {
       <div className="flex justify-between gap-3 items-center">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={onSearch} />
         <UserAccount />
+        <LogOut />
       </div>
     </div>
   );
 }
 
 function Logo() {
-  return <div className="text-2xl font-fredoka font-semibold">EcoRank</div>;
+  return <div className="text-2xl flex items-center gap-2 font-fredoka font-semibold">
+    <img src={EcoRankImg} className="rounded-full w-16" alt="" />
+    <h1>EcoRank</h1>
+  </div>;
 }
 
 function Search({setSearchQuery}) {
@@ -53,4 +59,10 @@ function UserAccount() {
       <img src="https://cdn-icons-png.flaticon.com/512/552/552848.png" alt="" />
     </div>
   );
+}
+
+function LogOut(){
+  return <div className="px-4 py-2 bg-green-300 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300">
+    <button className="hover:cursor-pointer">LogOut</button>
+  </div>
 }
