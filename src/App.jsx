@@ -7,6 +7,8 @@ import Challenges from "./pages/Challenges_Quizzes";
 import Leaderboard from "./pages/Leaderboard";
 import Rewards from "./pages/Rewards";
 import Article from "./pages/Article";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 const videos = [
   {
