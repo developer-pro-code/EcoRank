@@ -7,6 +7,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Rewards from "./pages/Rewards";
 import Article from "./pages/Article";
 import { useState } from "react";
+import Login from "./pages/Login";
 
 const videos = [
   {
@@ -38,7 +39,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PageLayout />}>
+        <Route path="/" element={<Login />}>
           <Route path="" element={<Home />} />
           <Route path="lessons" element={<Lessons setRecommendedLessons={setRecommendedLessons} yourLessons={yourLessons} setYourLessons={setYourLessons} videos={recommendedLessons} />} />
           <Route path="lessons/:id" element={<Article videos={videos} />} />
