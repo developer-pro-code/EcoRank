@@ -1,6 +1,41 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 export default function Login() {
+
+  
+    const [email, setEmail] = useState(" ");
+    const [password, setPassword] = useState(" ");
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+
+    const { signInUser } = UserAuth();
+    const navigate = useNavigate();
+    // console.log(session);
+     console.log(email, password);
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try{
+            const result = await signInUser(email, password);
+
+             if (result.success) {
+                navigate("/app"); // Navigate to dashboard on success
+            } else {
+                setError(result.error.message); // Show error message on failure
+            }
+
+        }catch(err){
+            setError("an errorr occurred");
+        }finally{
+            setLoading(false);
+        }
+
+    };
+
   return (
     <div>
       <section className="bg-gray-50">
@@ -21,7 +56,7 @@ export default function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-slate-900 md:text-2xl">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form onSubmit={handleSignIn} className="space-y-4 md:space-y-6" action="#">
                 <div>
                   <label
                     htmlFor="email"
@@ -30,6 +65,7 @@ export default function Login() {
                     Your email
                   </label>
                   <input
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     name="email"
                     id="email"
@@ -46,6 +82,7 @@ export default function Login() {
                     Password
                   </label>
                   <input
+                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     name="password"
                     id="password"
@@ -63,6 +100,7 @@ export default function Login() {
                   </a>
                 </div>
                 <button
+                  disabled={loading}
                   type="submit"
                   className="w-full hover:cursor-pointer rounded bg-[#58A547FF] py-2.5 px-5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-[#58A549fe] focus:shadow-none active:bg-[#58A55A68] hover:bg-[#58A547AA] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 >
@@ -70,13 +108,14 @@ export default function Login() {
                 </button>
                 <p className="text-sm font-light text-slate-500">
                   Don’t have an account yet?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to="/"
                     className="font-medium text-[#58A547FF] hover:underline"
                   >
                     Sign up
-                  </a>
+                  </Link>
                 </p>
+                {error && <p className="submit-error">{error}</p>}
               </form>
             </div>
           </div>
