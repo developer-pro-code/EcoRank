@@ -1,10 +1,10 @@
-export default function Header() {
+export default function Header({searchQuery, setSearchQuery, onSearch}) {
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
       <Logo />
 
       <div className="flex justify-between gap-3 items-center">
-        <Search />
+        <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={onSearch} />
         <UserAccount />
       </div>
     </div>
@@ -15,11 +15,12 @@ function Logo() {
   return <div className="text-2xl font-fredoka font-semibold">EcoRank</div>;
 }
 
-function Search() {
+function Search({setSearchQuery}) {
   return (
     <div className="w-full max-w-sm min-w-[200px]">
       <div className="relative">
         <input
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
           placeholder="Search lessons or challenges..."
         />

@@ -1,14 +1,13 @@
-import {Outlet, useParams} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import ScrollToTop from "../components/ScrollOnTop.jsx";
 
-export default function PageLayout() {
-  const {id} = useParams();
+export default function PageLayout({searchQuery, setSearchQuery, onSearch}) {
   return (
     <div className="w-full px-10 flex flex-col h-dvh">
-      <Header />
+      <Header searchQuery={searchQuery} onSearch={onSearch} setSearchQuery={setSearchQuery} />
       <div className="w-full flex gap-4 flex-1">
         <div>
           <Sidebar />

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
 import PageLayout from "./pages/PageLayout";
 import Home from "./pages/Home";
 import Lessons from "./pages/Lessons";
@@ -6,8 +7,6 @@ import Challenges from "./pages/Challenges_Quizzes";
 import Leaderboard from "./pages/Leaderboard";
 import Rewards from "./pages/Rewards";
 import Article from "./pages/Article";
-import { useState } from "react";
-import Login from "./pages/Login";
 
 const videos = [
   {
@@ -30,18 +29,61 @@ const videos = [
     category: "ecology",
     started: false,
     completed: false,
-  }
+  },
 ];
 
 export default function App() {
   const [recommendedLessons, setRecommendedLessons] = useState(videos);
   const [yourLessons, setYourLessons] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const onSearch = useCallback(() => {
+    if (searchQuery.length) {
+      const recommendedSearchedVideos = videos.filter(
+        (rv) =>
+          rv.topic_name.includes(searchQuery) ||
+          rv.topic_desc.includes(searchQuery)
+      );
+      setRecommendedLessons(
+        recommendedSearchedVideos.length ? recommendedSearchedVideos : videos
+      );
+    } else {
+      setRecommendedLessons(videos);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    onSearch();
+  }, [searchQuery, onSearch]);
+  useEffect(() => {
+    onSearch();
+  }, [searchQuery, onSearch]);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />}>
+        <Route
+          path="/"
+          element={
+            <PageLayout
+              onSearch={onSearch}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          }
+        >
           <Route path="" element={<Home />} />
-          <Route path="lessons" element={<Lessons setRecommendedLessons={setRecommendedLessons} yourLessons={yourLessons} setYourLessons={setYourLessons} videos={recommendedLessons} />} />
+          <Route
+            path="lessons"
+            element={
+              <Lessons
+                setRecommendedLessons={setRecommendedLessons}
+                yourLessons={yourLessons}
+                setYourLessons={setYourLessons}
+                videos={recommendedLessons}
+              />
+            }
+          />
           <Route path="lessons/:id" element={<Article videos={videos} />} />
           <Route path="challenges" element={<Challenges />} />
           <Route path="leaderboard" element={<Leaderboard />} />
