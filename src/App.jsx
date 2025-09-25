@@ -34,6 +34,58 @@ const videos = [
   },
 ];
 
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Login />,
+//   },
+//   {
+//     path: "/signup",
+//     element: <SignUp />,
+//   },
+//   {
+//     path: "/app",
+//     element: <PageLayout />,
+//     children: [
+//       {
+//         index: true,
+//         element: <Home />,
+//       },
+//       {
+//         path: "lessons",
+//         element: (
+//           <Lessons
+//             setRecommendedLessons={setRecommendedLessons}
+//             yourLessons={yourLessons}
+//             setYourLessons={setYourLessons}
+//             videos={recommendedLessons}
+//           />
+//         ),
+//       },
+//       {
+//         path: "lessons/:id",
+//         element: <Article videos={videos} />,
+//       },
+//       {
+//         path: "challenges",
+//         element: <Challenges />,
+//       },
+//       {
+//         path: "leaderboard",
+//         element: <Leaderboard />,
+//       },
+//       {
+//         path: "rewards",
+//         element: <Rewards />,
+//       },
+//     ],
+//   },
+//   {
+//     path: "*",
+//     element: <div>Page not found</div>,
+//   },
+// ]);
+
 export default function App() {
   const [recommendedLessons, setRecommendedLessons] = useState(videos);
   const [yourLessons, setYourLessons] = useState([]);
@@ -67,14 +119,12 @@ export default function App() {
         <Route
           path="/"
           element={
-            <PageLayout
-              onSearch={onSearch}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
+            <SignUp />
           }
-        >
-          <Route path="" element={<Home />} />
+        />
+          <Route path="/login" element={<Login />} />
+        <Route path="/app" element={<PageLayout />}>
+          <Route index element={<Home />} />
           <Route
             path="lessons"
             element={
@@ -90,9 +140,9 @@ export default function App() {
           <Route path="challenges" element={<Challenges />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="rewards" element={<Rewards />} />
+          </Route>
           <Route path="*" element={<div>Page not found</div>} />
-        </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
   );
 }
