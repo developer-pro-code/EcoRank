@@ -16,7 +16,7 @@ export default function Header({searchQuery, setSearchQuery, onSearch}) {
 
 function Logo() {
   return <div className="text-2xl flex items-center gap-2 font-fredoka font-semibold">
-    <img src={EcoRankImg} className="rounded-full w-16" alt="" />
+    <img src={EcoRankImg} className="rounded-full w-16" />
     <h1>EcoRank</h1>
   </div>;
 }
