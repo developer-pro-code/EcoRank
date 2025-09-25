@@ -1,6 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import EcoRankImg from "../assets/EcoRank.jpeg"
+import { UserAuth } from "../context/AuthContext";
 
 export default function Header({searchQuery, setSearchQuery, onSearch}) {
+
+
+   const {session, signOut} = UserAuth();
+    
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
       <Logo />
@@ -62,7 +68,24 @@ function UserAccount() {
 }
 
 function LogOut(){
-  return <div className="px-4 py-2 bg-green-300 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300">
+
+  const {session, signOut} = UserAuth();
+    const navigate = useNavigate();
+
+    console.log(session);
+
+    const handleSignOut = async (e) =>{
+        e.preventDefault();
+        try{
+            await signOut();
+            navigate('/');
+        }catch(err){
+            console.error(err);
+        }
+    };
+
+
+  return <div onClick={handleSignOut} className="px-4 py-2 bg-green-300 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300">
     <button className="hover:cursor-pointer">LogOut</button>
   </div>
 }
