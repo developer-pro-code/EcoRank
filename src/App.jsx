@@ -1,5 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
+import { UserAuth } from "./context/AuthContext.jsx";
 import PageLayout from "./pages/PageLayout";
 import Home from "./pages/Home";
 import Lessons from "./pages/Lessons";
@@ -86,6 +87,12 @@ const videos = [
 //   },
 // ]);
 
+function ProtectedRoute({ children }) {
+  const { session } = UserAuth();
+  if (session === undefined) return null; // or a
+  return session ? children : <Navigate to="/" />;
+}
+
 export default function App() {
   const [recommendedLessons, setRecommendedLessons] = useState(videos);
   const [yourLessons, setYourLessons] = useState([]);
@@ -116,14 +123,19 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/"
+          path="/app"
           element={
-            <SignUp />
+            <ProtectedRoute>
+              <PageLayout
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+              />{" "}
+            </ProtectedRoute>
           }
-        />
-          <Route path="/login" element={<Login />} />
-        <Route path="/app" element={<PageLayout />}>
+        >
           <Route index element={<Home />} />
           <Route
             path="lessons"
@@ -140,9 +152,9 @@ export default function App() {
           <Route path="challenges" element={<Challenges />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="rewards" element={<Rewards />} />
-          </Route>
-          <Route path="*" element={<div>Page not found</div>} />
+        </Route>
+        <Route path="*" element={<div>Page not found</div>} />
       </Routes>
-      </BrowserRouter>
+    </BrowserRouter>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
+import EcoRankImg from "../assets/EcoRank.jpeg"
 
 export default function Login() {
 
@@ -30,6 +31,7 @@ export default function Login() {
 
         }catch(err){
             setError("an errorr occurred");
+            console.log(err)
         }finally{
             setLoading(false);
         }
@@ -45,8 +47,8 @@ export default function Login() {
             className="flex items-center mb-6 text-2xl font-semibold text-slate-800"
           >
             <img
-              className="w-8 h-8 mr-2"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+              className="w-16 h-16 mr-2 rounded-full"
+              src={EcoRankImg}
               alt="logo"
             />
             EcoRank

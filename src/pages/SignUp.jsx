@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
+import EcoRank from "../assets/EcoRank.jpeg"
 
 export default function SignUp(){
     const [email, setEmail] = useState(" ");
@@ -28,6 +29,7 @@ export default function SignUp(){
 
         }catch(err){
             setError("an errorr occurred");
+            console.log(err)
         }finally{
             setLoading(false);
         }
@@ -41,7 +43,7 @@ export default function SignUp(){
     <section  className="bg-gray-50">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <Link to="#" className="flex items-center mb-6 text-2xl font-semibold text-slate-800">
-          <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+          <img className="w-16 h-16 rounded-full mr-2" src={EcoRank} alt="logo" />
           EcoRank
       </Link>
       <div className="w-full bg-white rounded-lg shadow border border-slate-200 md:mt-0 sm:max-w-md xl:p-0">
