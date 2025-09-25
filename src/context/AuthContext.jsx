@@ -32,7 +32,8 @@ export const AuthContextProvider = ({ children }) => {
       // Handle Supabase error explicitly
       if (error) {
         console.error("Sign-in error:", error.message); // Log the error for debugging
-        return { success: false, error: error.message }; // Return the error
+        // alert(`${error.message}`)
+        return { success: false, error }; // Return the error
       }
 
       // If no error, return success
