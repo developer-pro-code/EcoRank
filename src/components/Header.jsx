@@ -3,9 +3,12 @@ import EcoRankImg from "../assets/EcoRank.jpeg"
 import { UserAuth } from "../context/AuthContext";
 
 export default function Header({searchQuery, setSearchQuery, onSearch}) {
+<<<<<<< HEAD
 
 
   //  const {session, signOut} = UserAuth();
+=======
+>>>>>>> 4e737b8 (as)
     
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
