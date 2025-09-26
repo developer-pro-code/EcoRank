@@ -10,82 +10,31 @@ import Rewards from "./pages/Rewards";
 import Article from "./pages/Article";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import { fetchLessons } from "./fetchLessons.js";
 
-const videos = [
-  {
-    articleId: "1",
-    imgUrl:
-      "https://static.vecteezy.com/system/resources/previews/003/301/710/non_2x/clean-energy-renewable-elctricity-powerconcept-with-various-model-free-vector.jpg ",
-    topic_name: "renewable energy sources",
-    topic_desc: "an introduction to solar, wind and hydro technologies",
-    category: "energy",
-    started: false,
-    completed: false,
-  },
-  {
-    articleId: "2",
-    imgUrl:
-      "https://static.vecteezy.com/system/resources/previews/000/521/411/large_2x/vector-nature.jpg",
-    topic_name: "protecting biodiversity",
-    topic_desc:
-      "understand the importance of ecosystems and how to protect species",
-    category: "ecology",
-    started: false,
-    completed: false,
-  },
-];
-
-// const router = createBrowserRouter([
+// const videos = [
 //   {
-//     path: "/",
-//     element: <Login />,
+//     articleId: "1",
+//     imgUrl:
+//       "https://static.vecteezy.com/system/resources/previews/003/301/710/non_2x/clean-energy-renewable-elctricity-powerconcept-with-various-model-free-vector.jpg ",
+//     topic_name: "renewable energy sources",
+//     topic_desc: "an introduction to solar, wind and hydro technologies",
+//     category: "energy",
+//     started: false,
+//     completed: false,
 //   },
 //   {
-//     path: "/signup",
-//     element: <SignUp />,
+//     articleId: "2",
+//     imgUrl:
+//       "https://static.vecteezy.com/system/resources/previews/000/521/411/large_2x/vector-nature.jpg",
+//     topic_name: "protecting biodiversity",
+//     topic_desc:
+//       "understand the importance of ecosystems and how to protect species",
+//     category: "ecology",
+//     started: false,
+//     completed: false,
 //   },
-//   {
-//     path: "/app",
-//     element: <PageLayout />,
-//     children: [
-//       {
-//         index: true,
-//         element: <Home />,
-//       },
-//       {
-//         path: "lessons",
-//         element: (
-//           <Lessons
-//             setRecommendedLessons={setRecommendedLessons}
-//             yourLessons={yourLessons}
-//             setYourLessons={setYourLessons}
-//             videos={recommendedLessons}
-//           />
-//         ),
-//       },
-//       {
-//         path: "lessons/:id",
-//         element: <Article videos={videos} />,
-//       },
-//       {
-//         path: "challenges",
-//         element: <Challenges />,
-//       },
-//       {
-//         path: "leaderboard",
-//         element: <Leaderboard />,
-//       },
-//       {
-//         path: "rewards",
-//         element: <Rewards />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "*",
-//     element: <div>Page not found</div>,
-//   },
-// ]);
+// ];
 
 function ProtectedRoute({ children }) {
   const { session } = UserAuth();
@@ -94,28 +43,33 @@ function ProtectedRoute({ children }) {
 }
 
 export default function App() {
-  const [recommendedLessons, setRecommendedLessons] = useState(videos);
+  const [recommendedLessons, setRecommendedLessons] = useState([]);
   const [yourLessons, setYourLessons] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  useEffect(() => {
+    const func = async () => {
+      const all_data = await fetchLessons()
+      console.log(all_data)
+      setRecommendedLessons(all_data)
+    }
+    func()
+  }, [])
 
   const onSearch = useCallback(() => {
     if (searchQuery.length) {
-      const recommendedSearchedVideos = videos.filter(
+      const recommendedSearchedVideos = recommendedLessons.filter(
         (rv) =>
           rv.topic_name.includes(searchQuery) ||
-          rv.topic_desc.includes(searchQuery)
+          rv.topic_description.includes(searchQuery)
       );
       setRecommendedLessons(
-        recommendedSearchedVideos.length ? recommendedSearchedVideos : videos
+        recommendedSearchedVideos.length ? recommendedSearchedVideos : recommendedLessons
       );
     } else {
-      setRecommendedLessons(videos);
+      setRecommendedLessons(recommendedLessons);
     }
   }, [searchQuery]);
 
-  useEffect(() => {
-    onSearch();
-  }, [searchQuery, onSearch]);
   useEffect(() => {
     onSearch();
   }, [searchQuery, onSearch]);
@@ -126,7 +80,7 @@ export default function App() {
         <Route path="/" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path="/app"
+          path="app"
           element={
             <ProtectedRoute>
               <PageLayout
@@ -148,7 +102,7 @@ export default function App() {
               />
             }
           />
-          <Route path="lessons/:id" element={<Article videos={videos} />} />
+          <Route path="lessons/:id" element={<Article videos={recommendedLessons} />} />
           <Route path="challenges" element={<Challenges />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="rewards" element={<Rewards />} />

@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EcoRankImg from "../assets/EcoRank.jpeg"
 import { UserAuth } from "../context/AuthContext";
 
 export default function Header({searchQuery, setSearchQuery, onSearch}) {
 
 
-   const {session, signOut} = UserAuth();
+  //  const {session, signOut} = UserAuth();
     
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
@@ -21,10 +21,10 @@ export default function Header({searchQuery, setSearchQuery, onSearch}) {
 }
 
 function Logo() {
-  return <div className="text-2xl flex items-center gap-2 font-fredoka font-semibold">
+  return <Link to="/" className="text-2xl flex items-center gap-2 font-fredoka font-semibold">
     <img src={EcoRankImg} className="rounded-full w-16" />
     <h1>EcoRank</h1>
-  </div>;
+  </Link>;
 }
 
 function Search({setSearchQuery}) {

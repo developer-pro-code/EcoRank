@@ -7,7 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [session, setSession] = useState(undefined);
 
   // Sign up
-  const signUpNewUser = async (email, password) => {
+  const signUpNewUser = async (email, password, username) => {
     const { data, error } = await supabase.auth.signUp({
       email: email.toLowerCase(),
       password: password,
@@ -17,7 +17,19 @@ export const AuthContextProvider = ({ children }) => {
       console.error("Error signing up: ", error);
       return { success: false, error };
     }
+    const userId = data?.user?.id;
 
+    if (userId && username) {
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ username })
+        .eq("id", userId);
+
+      if (updateError) {
+        console.error("Error updating username:", updateError);
+        return { success: false, error: updateError };
+      }
+    }
     return { success: true, data };
   };
 
