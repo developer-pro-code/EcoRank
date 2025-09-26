@@ -8,6 +8,7 @@ export default function SignUp(){
     const [password, setPassword] = useState(" ");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [username, setUsername] = useState("");
 
 
     const { signUpNewUser } = UserAuth();
@@ -19,10 +20,14 @@ export default function SignUp(){
         e.preventDefault();
         setLoading(true);
         try{
-            const result = await signUpNewUser(email, password);
+            const result = await signUpNewUser(email, password, username);
 
              if (result.success) {
-                navigate("/app"); // Navigate to dashboard on success
+
+              setTimeout(()=>{
+                navigate("/app");
+              },500);
+                 // Navigate to dashboard on success
             } else {
                 setError(result.error.message); // Show error message on failure
             }
@@ -60,6 +65,16 @@ export default function SignUp(){
                       <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-700">Password</label>
                       <input onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password" placeholder="••••••••" className="bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md w-full p-2.5 focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" required="" />
                   </div>
+                  <div>
+                  <input
+                    type="text"
+                    placeholder="username"
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    className="bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md w-full p-2.5 focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    required=""
+                  />
+                </div>
                   {/* <div>
                       <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-slate-700">Confirm password</label>
                       <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" className="bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md w-full p-2.5 focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" required="" /> 

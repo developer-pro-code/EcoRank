@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-
+import { supabase } from "../supabaseClient";
+import { useEffect, useState } from "react";
 const announcements = [
   {
     date: new Date(),
@@ -17,10 +18,55 @@ const announcements = [
   }
 ];
 
+
+
+
 export default function Home() {
+
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      setLoading(true);
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        console.error("User fetch error:", userError);
+        setLoading(false);
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) {
+        console.error("Profile fetch error:", profileError.message);
+      } else {
+        setUsername(profile.username);
+      }
+
+      setLoading(false);
+    };
+
+    fetchUsername();
+  }, []);
+
+  console.log(username);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="font-fredoka w-full flex-1">
-      <WelcomeBoard />
+      <WelcomeBoard profileName={username}/>
 
       {/* Summary Cards Section */}
       <div className="w-full flex gap-4 mt-6">
@@ -155,10 +201,10 @@ export default function Home() {
   );
 }
 
-function WelcomeBoard() {
+function WelcomeBoard({profileName}) {
   return (
     <div className="px-8 py-4 flex flex-col gap-2 rounded-md bg-green-50 w-full">
-      <h1 className="text-6xl font-semibold">Hey there, Aditya! 👋</h1>
+      <h1 className="text-6xl font-semibold">Hey there {profileName}!👋</h1>
       <p className="text-2xl text-gray-600">
         Your journey to a greener planet continues. Let's make an impact!
       </p>
