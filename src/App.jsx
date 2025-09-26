@@ -68,7 +68,7 @@ export default function App() {
     } else {
       setRecommendedLessons(recommendedLessons);
     }
-  }, [searchQuery]);
+  }, [searchQuery, recommendedLessons]);
 
   useEffect(() => {
     onSearch();
