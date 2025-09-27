@@ -4,7 +4,7 @@ import { UserAuth } from "./context/AuthContext.jsx";
 import PageLayout from "./pages/PageLayout";
 import Home from "./pages/Home";
 import Lessons from "./pages/Lessons";
-import Challenges from "./pages/Challenges_Quizzes";
+import Challenges from "./pages/Challenge";
 import Leaderboard from "./pages/Leaderboard";
 import Rewards from "./pages/Rewards";
 import Article from "./pages/Article";
@@ -105,7 +105,7 @@ export default function App() {
           <Route path="lessons/:id" element={<Article videos={recommendedLessons} />} />
           <Route path="challenges" element={<Challenges />} />
           <Route path="leaderboard" element={<Leaderboard />} />
-          <Route path="rewards" element={<Rewards />} />
+          {/* <Route path="rewards" element={<Rewards />} /> */}
         </Route>
         <Route path="*" element={<div>Page not found</div>} />
       </Routes>
