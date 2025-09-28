@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { UserAuth } from "./context/AuthContext.jsx";
 import PageLayout from "./pages/PageLayout";
 import Home from "./pages/Home";
