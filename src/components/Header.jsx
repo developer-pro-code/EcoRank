@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import EcoRankImg from "../assets/EcoRank.jpeg"
 import { UserAuth } from "../context/AuthContext";
+import EcoRankImg from "../assets/EcoRank.jpeg"
 
 export default function Header({searchQuery, setSearchQuery, onSearch}) {
 <<<<<<< HEAD
