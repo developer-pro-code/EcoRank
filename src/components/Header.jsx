@@ -1,15 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
-import EcoRankImg from "../assets/EcoRank.jpeg"
+import EcoRankImg from "../assets/EcoRank.jpeg";
 
-export default function Header({searchQuery, setSearchQuery, onSearch}) {
-    
+export default function Header({ searchQuery, setSearchQuery, onSearch }) {
   return (
     <div className="flex flex-1 justify-between items-center w-full py-5">
       <Logo />
 
       <div className="flex justify-between gap-3 items-center">
-        <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={onSearch} />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onSearch={onSearch}
+        />
         <UserAccount />
         <LogOut />
       </div>
@@ -18,13 +21,18 @@ export default function Header({searchQuery, setSearchQuery, onSearch}) {
 }
 
 function Logo() {
-  return <Link to="/" className="text-2xl flex items-center gap-2 font-fredoka font-semibold">
-    <img src={EcoRankImg} className="rounded-full w-16" />
-    <h1>EcoRank</h1>
-  </Link>;
+  return (
+    <Link
+      to="/"
+      className="text-2xl flex items-center gap-2 font-fredoka font-semibold"
+    >
+      <img src={EcoRankImg} className="rounded-full w-16" />
+      <h1>EcoRank</h1>
+    </Link>
+  );
 }
 
-function Search({setSearchQuery}) {
+function Search({ setSearchQuery }) {
   return (
     <div className="w-full max-w-sm min-w-[200px]">
       <div className="relative">
@@ -64,25 +72,28 @@ function UserAccount() {
   );
 }
 
-function LogOut(){
+function LogOut() {
+  const { session, signOut } = UserAuth();
+  const navigate = useNavigate();
 
-  const {session, signOut} = UserAuth();
-    const navigate = useNavigate();
+  // console.log(session);
 
-    // console.log(session);
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    try {
+      await signOut();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    const handleSignOut = async (e) =>{
-        e.preventDefault();
-        try{
-            await signOut();
-            navigate('/');
-        }catch(err){
-            console.error(err);
-        }
-    };
-
-
-  return <div onClick={handleSignOut} className="px-4 py-2 bg-green-300 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300">
-    <button className="hover:cursor-pointer">LogOut</button>
-  </div>
+  return (
+    <div
+      onClick={handleSignOut}
+      className="px-4 py-2 bg-green-300 rounded-md hover:cursor-pointer hover:bg-green-500 transition-all duration-300"
+    >
+      <button className="hover:cursor-pointer">LogOut</button>
+    </div>
+  );
 }
