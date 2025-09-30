@@ -18,9 +18,6 @@ const announcements = [
   }
 ];
 
-
-
-
 export default function Home() {
 
   const [username, setUsername] = useState("");
